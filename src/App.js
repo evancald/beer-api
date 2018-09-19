@@ -1,18 +1,7 @@
 import React, { Component } from 'react';
-//import { getBeerData } from './dataService';
+import BeerCard from './BeerCard';
 import './App.css';
 const axios = require('axios');
-
-function BeerCard(props) {
-  return (
-    <div className='beer-card'>
-      <div>Name: {props.name}</div>
-      <div>Tagline: {props.tagline}</div>
-      <div>Description: {props.description}</div>
-      <div>ABV %: {props.abv}</div>
-    </div>
-  )
-}
 
 class App extends Component {
   state = {
@@ -45,10 +34,12 @@ class App extends Component {
   search = () => {
     const value = this.state.searchText;
     axios.get(`https://api.punkapi.com/v2/beers/?food=${value}`).then((response) => {this.setState({data: response.data})});
+    this.setState({searchText: ''});
   }
 
   reset = () => {
     axios.get('https://api.punkapi.com/v2/beers').then((response) => {this.setState({data: response.data})});
+    this.setState({searchText: ''});
   }
 
   getRandomBeer = () => {
@@ -66,7 +57,7 @@ class App extends Component {
           <button onClick={this.handleSortByAbv}>Sort By ABV</button>
         </div>
         <div>
-          <input onChange={(e) => this.handleChange(e.target.value)} placeholder="Search by food pairing"></input>
+          <input onChange={(e) => this.handleChange(e.target.value)} value={this.state.searchText} placeholder="Search by food pairing"></input>
           <button onClick={this.search}>Search</button>
         </div>
         <div>
