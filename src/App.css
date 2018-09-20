@@ -1,21 +1,60 @@
 .App {
-  text-align: center;
+  background-color: black;
+}
+
+.beer-list {
   display: flex;
   flex-direction: column;
-  align-items: center
+  align-items: center;
 }
 
 .beer-card {
-  border: 1px solid #999;
   padding: 10px;
   margin: 5px;
-  width: 300px;
+  width: 500px;
+  color: white;
+  background-color: #999;
+  border-radius: 5px;
 }
 
-.nav {
-  text-align: center;
+.nav-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.nav-row {
+  width: 300px;
+  margin: 5px;
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+}
+
+.nav-button {
+  height: 50px;
+  width: 160px;
+  margin: 0px 5px;
+  text-align: center;
+  background-color: cadetblue;
+  border-radius: 5px;
+  color: white;
+}
+
+.nav-button-single {
+    height: 50px;
+    width: 320px;
+    margin: 0px 5px;
+    text-align: center;
+    background-color: cadetblue;
+    border-radius: 5px;
+    color: white;
+}
+
+.search-input {
+  height: 30px;
+  width: 160px;
+  margin: 0px 5px;
+  border-radius: 5px;
 }

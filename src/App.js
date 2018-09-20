@@ -52,21 +52,25 @@ class App extends Component {
     })
     return (
       <div className="App">
-        <div className="nav">
-          <button onClick={this.handleSortByName}>Sort By Name</button>
-          <button onClick={this.handleSortByAbv}>Sort By ABV</button>
+        <div className="nav-container">
+          <div className="nav-row">
+            <input className="search-input" onChange={(e) => this.handleChange(e.target.value)} value={this.state.searchText} placeholder="Search by food pairing"></input>
+            <button className="nav-button" onClick={this.search}>Search</button>
+          </div>
+          <div className="nav-row">
+            <button className="nav-button" onClick={this.handleSortByName}>Sort By Name</button>
+            <button className="nav-button" onClick={this.handleSortByAbv}>Sort By ABV</button>
+          </div>
+          <div className="nav-row">
+            <button className="nav-button-single" onClick={this.getRandomBeer}>Get a Random Beer</button>
+          </div>
+          <div className="nav-row">
+            <button className="nav-button-single" onClick={this.reset}>Reset Beer List</button>
+          </div>
         </div>
-        <div>
-          <input onChange={(e) => this.handleChange(e.target.value)} value={this.state.searchText} placeholder="Search by food pairing"></input>
-          <button onClick={this.search}>Search</button>
+        <div className="beer-list">
+          {beersList}
         </div>
-        <div>
-          <button onClick={this.getRandomBeer}>Get a Random Beer</button>
-        </div>
-        <div>
-          <button onClick={this.reset}>Reset Beer List</button>
-        </div>
-        {beersList}
       </div>
     );
   }
