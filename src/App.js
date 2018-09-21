@@ -6,11 +6,14 @@ const axios = require('axios');
 class App extends Component {
   state = {
     data: [],
-    searchText: ''
+    name: '',
+    tagline: '',
+    abv: null,
+    description: ''
   }
 
   componentDidMount() {
-    axios.get('https://api.punkapi.com/v2/beers').then((response) => {this.setState({data: response.data})});
+    axios.get('http://localhost:8080/api/beers').then((response) => {this.setState({data: response.data})});
   }
 
   handleSortByName = () => {
@@ -27,23 +30,36 @@ class App extends Component {
     this.setState({data: sorted});
   }
 
-  handleChange = (value) => {
-    this.setState({searchText: value});
+  deleteBeer = () => {
+    axios.delete('http://localhost:8080/api/beers').then((response) => {this.setState({data: response.data})});
   }
 
-  search = () => {
-    const value = this.state.searchText;
-    axios.get(`https://api.punkapi.com/v2/beers/?food=${value}`).then((response) => {this.setState({data: response.data})});
-    this.setState({searchText: ''});
+  updateName(value) {
+    this.setState({name: value});
   }
 
-  reset = () => {
-    axios.get('https://api.punkapi.com/v2/beers').then((response) => {this.setState({data: response.data})});
-    this.setState({searchText: ''});
+  updateTagline(value) {
+    this.setState({tagline: value});
   }
 
-  getRandomBeer = () => {
-    axios.get('https://api.punkapi.com/v2/beers/random').then((response) => {this.setState({data: response.data})});
+  updateAbv(value) {
+    this.setState({abv: value});
+  }
+
+  updateDescription(value) {
+    this.setState({description: value});
+  }
+
+  addBeer = () => {
+    axios.post('http://localhost:8080/api/beers', {
+      name: this.state.name,
+      tagline: this.state.tagline,
+      abv: this.state.abv,
+      description: this.state.description
+    }).then((response) => {
+      this.setState({data: response.data})
+    })
+    this.setState({name: '', tagline: '', abv: null, description: ''});
   }
 
   render() {
@@ -52,23 +68,25 @@ class App extends Component {
     })
     return (
       <div className="App">
+        <div className="add-beer">
+          <h2>Create Your Own Beer</h2>
+          <span>Name</span><input onChange={(e) => this.updateName(e.target.value)} value={this.state.name} placeholder="Name"/>
+          <span>Tagline</span><input onChange={(e) => this.updateTagline(e.target.value)} value={this.state.tagline} placeholder="Tagline"/>
+          <span>% ABV</span><input onChange={(e) => this.updateAbv(e.target.value)} value={this.state.abv} placeholder="% ABV"/>
+          <span>Description</span><input onChange={(e) => this.updateDescription(e.target.value)} value={this.state.description} placeholder="Description"/>
+          <button className="nav-button-single" onClick={this.addBeer}>Submit</button>
+        </div>
         <div className="nav-container">
-          <div className="nav-row">
-            <input className="search-input" onChange={(e) => this.handleChange(e.target.value)} value={this.state.searchText} placeholder="Search by food pairing"></input>
-            <button className="nav-button" onClick={this.search}>Search</button>
-          </div>
           <div className="nav-row">
             <button className="nav-button" onClick={this.handleSortByName}>Sort By Name</button>
             <button className="nav-button" onClick={this.handleSortByAbv}>Sort By ABV</button>
           </div>
           <div className="nav-row">
-            <button className="nav-button-single" onClick={this.getRandomBeer}>Get a Random Beer</button>
-          </div>
-          <div className="nav-row">
-            <button className="nav-button-single" onClick={this.reset}>Reset Beer List</button>
+          <button className="nav-button-single" onClick={this.deleteBeer}>Delete</button>
           </div>
         </div>
         <div className="beer-list">
+          <h2>Beer List</h2>
           {beersList}
         </div>
       </div>
