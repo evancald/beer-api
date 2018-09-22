@@ -8,32 +8,49 @@ class App extends Component {
     data: [],
     name: '',
     tagline: '',
-    abv: null,
+    abv: '',
     description: ''
   }
 
+  //Read
   componentDidMount() {
     axios.get('http://localhost:8080/api/beers').then((response) => {this.setState({data: response.data})});
   }
 
-  handleSortByName = () => {
-    const sorted = this.state.data.sort(function(a, b) {
-      return a.name.localeCompare(b.name);
+  //Create
+  addBeer = () => {
+    axios.post('http://localhost:8080/api/beers', {
+      name: this.state.name,
+      tagline: this.state.tagline,
+      abv: this.state.abv,
+      description: this.state.description
+    }).then((response) => {
+      this.setState({data: response.data})
     })
-    this.setState({data: sorted});
+    this.setState({name: '', tagline: '', abv: '', description: ''});
   }
 
-  handleSortByAbv = () => {
-    const sorted = this.state.data.sort(function(a, b) {
-      return b.abv - a.abv;
+  //Update
+  updateBeer(id) {
+    axios.put(`http://localhost:8080/api/beers/${id}`, {
+      name: this.state.name,
+      tagline: this.state.tagline,
+      abv: this.state.abv,
+      description: this.state.description
+    }).then((response) => {
+      this.setState({data: response.data})
     })
-    this.setState({data: sorted});
+    this.setState({name: '', tagline: '', abv: '', description: ''});
   }
 
-  deleteBeer = () => {
-    axios.delete('http://localhost:8080/api/beers').then((response) => {this.setState({data: response.data})});
+  //Delete
+  deleteBeer(id) {
+    axios.delete(`http://localhost:8080/api/beers/${id}`).then((response) => {
+      this.setState({data: response.data})
+    });
   }
 
+  //Update input form values on state
   updateName(value) {
     this.setState({name: value});
   }
@@ -50,21 +67,30 @@ class App extends Component {
     this.setState({description: value});
   }
 
-  addBeer = () => {
-    axios.post('http://localhost:8080/api/beers', {
-      name: this.state.name,
-      tagline: this.state.tagline,
-      abv: this.state.abv,
-      description: this.state.description
-    }).then((response) => {
-      this.setState({data: response.data})
+  //Sort
+  handleSortByName = () => {
+    const sorted = this.state.data.sort(function(a, b) {
+      return a.name.localeCompare(b.name);
     })
-    this.setState({name: '', tagline: '', abv: null, description: ''});
+    this.setState({data: sorted});
+  }
+
+  handleSortByAbv = () => {
+    const sorted = this.state.data.sort(function(a, b) {
+      return b.abv - a.abv;
+    })
+    this.setState({data: sorted});
   }
 
   render() {
     const beersList = this.state.data.map((beer, i) => {
-      return <BeerCard key={i} name={beer.name} tagline={beer.tagline} abv={beer.abv} description={beer.description}/>
+      return (
+        <div className="beer-container" key={i}>
+          <BeerCard name={beer.name} tagline={beer.tagline} abv={beer.abv} description={beer.description}/>
+          <button className="delete-button" onClick={() => {this.deleteBeer(beer.id)}}>delete</button>
+          <button className="update-button" onClick={() => {this.updateBeer(beer.id)}}>update</button>
+        </div>
+        )
     })
     return (
       <div className="App">
@@ -81,14 +107,12 @@ class App extends Component {
             <button className="nav-button" onClick={this.handleSortByName}>Sort By Name</button>
             <button className="nav-button" onClick={this.handleSortByAbv}>Sort By ABV</button>
           </div>
-          <div className="nav-row">
-          <button className="nav-button-single" onClick={this.deleteBeer}>Delete</button>
-          </div>
         </div>
         <div className="beer-list">
           <h2>Beer List</h2>
           {beersList}
         </div>
+        <footer className="footer">Evan Caldwell 2018 DevMtn NoDB Project</footer>
       </div>
     );
   }

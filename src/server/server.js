@@ -14,7 +14,8 @@ app.use(function(req, res, next) {
 
 app.post('/api/beers', controller.create);
 app.get('/api/beers', controller.read);
-app.delete('/api/beers', controller.delete);
+app.put('/api/beers/:id', controller.update);
+app.delete('/api/beers/:id', controller.delete);
 
 const port = 8080;
 

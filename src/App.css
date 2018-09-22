@@ -44,20 +44,13 @@
 }
 
 .nav-button-single {
-    height: 50px;
-    width: 320px;
-    margin: 0px 5px;
-    text-align: center;
-    background-color: cadetblue;
-    border-radius: 5px;
-    color: white;
-}
-
-.search-input {
-  height: 30px;
-  width: 160px;
-  margin: 0px 5px;
+  height: 50px;
+  width: 320px;
+  margin: 10px 5px;
+  text-align: center;
+  background-color: cadetblue;
   border-radius: 5px;
+  color: white;
 }
 
 .add-beer {
@@ -65,4 +58,45 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 10px;
+}
+
+.delete-button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  color: white;
+  background-color: cadetblue;
+  height: 20px;
+  width: 50px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.update-button {
+  position: absolute;
+  top: 5px;
+  right: 60px;
+  color: white;
+  background-color: cadetblue;
+  height: 20px;
+  width: 50px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.beer-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: relative;
+}
+
+.footer {
+  color: white;
+  margin-top: 10px;
+  padding: 5px;
+  font-size: 10px;
+  width: 100%;
+  text-align: center;
 }
